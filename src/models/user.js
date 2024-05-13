@@ -1,15 +1,19 @@
 const { hashPassword } = require("../utils/auth");
 
 module.exports = {
+    //Conseguir algun dato del usuario
     get: (con, callback) => {
         con.query('SELECT * FROM users', callback);
     },
+    //Conseguir id del usuario para comparar/usar mas adelante
     getById: (con, id, callback) => {
         con.query(`SELECT * FROM users WHERE id= ${id}`, callback);
     },
+    //Conseguir mail del usuario para comparar/usar mas adelante
     getByEmail: (con, email, callback) => {
         con.query(`SELECT * FROM users WHERE email= '${email}'`, callback);
     },
+    //Almacenar en la base de datos
     create: (con, data, callback) => {
         const { firstName, lastName, email, password, fecha_nacimiento, descripcion, roleId, img } = data;
 
@@ -17,6 +21,7 @@ module.exports = {
         if (!firstName || !lastName || !email || !password || !fecha_nacimiento || !roleId) {
             return callback({ message: 'Faltan campos obligatorios' });
         }
+        //Guarda los campos
         let query = `
             INSERT INTO users SET
             firstName = '${data.firstName}',
@@ -28,7 +33,7 @@ module.exports = {
             img = '${data.img}',
             active = '${typeof data.active !== 'undefined' ? data.active : 1}'
         `;
-
+        //si hay algo en el campo descripcion, lo guarda
         if (descripcion) {
             query += `, descripcion ='${data.descripcion}'`;
         }

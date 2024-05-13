@@ -4,6 +4,8 @@ const { getFilePath, unlinkFile } = require('../utils/auth');
 const { createAccessToken, createRefreshToken } = require('../utils/jwt');
 
 module.exports = {
+
+    //Acceder al sitio
     index: (req, res) => {
         User.get(req.con, (error, rows) => {
             if (error) {
@@ -13,6 +15,8 @@ module.exports = {
             }
         })
     },
+
+    //Almacenar los datos del usuario
     store: (req, res) => {
         const { firstName, lastName, email, password, fecha_nacimiento, descripcion, roleId, img } = req.body;
         const regex = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
@@ -43,16 +47,18 @@ module.exports = {
          if (descripcion.length>250){
             return res.status(400).send({ response: 'El texto no debe exceder de los 250 carácteres' });
         }
-
+        //Guardar la imagen de perfil del usuario
         req.body.img = '';
         if (req.files.img) {
             req.body.img = getFilePath(req.files.img);
         }
+
+        //Crear el usuario, comprobando email existente, entre otros errores
         User.create(req.con, req.body, (error, row) => {
             if (error) {
                 if (req.body.img) unlinkFile(req.body.img);
-                if (error.code === 'ER_DUP_ENTRY') { // Email already exists
-                    res.status(409).send({ response: error.sqlMessage }); // Send the specific error message
+                if (error.code === 'ER_DUP_ENTRY') { // Email ya existe
+                    res.status(409).send({ response: error.sqlMessage }); // Manda un mensaje específico de error
                 } else {
                     res.status(500).send({ response: 'Ha ocurrido un error creando el usuario' });
                 }
@@ -61,9 +67,11 @@ module.exports = {
             }
         });
     },
-
+    
+    //Acceder a un usuario existente
     login: (req, res) => {
         const { email, password } = req.body;
+        //comprueba que el email existe, o que la contraseña es incorrecta
         User.getByEmail(req.con, email, (error, rows) => {
             if (error) {
                 res.status(500).send({ response: 'Ha ocurrido un error obteniendo el usuario' });
