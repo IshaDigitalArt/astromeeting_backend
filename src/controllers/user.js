@@ -18,7 +18,7 @@ module.exports = {
         const regex = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
 
         // Validar campos obligatorios
-        if (!firstName || !lastName || !email || !password || !fecha_nacimiento || !descripcion || !roleId) {
+        if (!firstName || !lastName || !email || !password || !fecha_nacimiento || !roleId) {
             return res.status(400).send({ response: 'Faltan campos obligatorios' });
         }
 
