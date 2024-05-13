@@ -26,7 +26,6 @@ module.exports = {
         if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
             return res.status(400).send({ response: 'Email inválido' });
         }
-
         // Validar longitud de password
         if (password.length < 6) {
             return res.status(400).send({ response: 'La contraseña debe tener al menos 6 caracteres' });
@@ -38,6 +37,11 @@ module.exports = {
         //validar caracter especial
         if (!regex.test(password)) {
             return res.status(400).send({ response: 'La contraseña tiene que tener al menos un caracter especial' });
+        }
+
+         //Validar tamaño de la descripcion
+         if (descripcion.length>250){
+            return res.status(400).send({ response: 'El texto no debe exceder de los 250 carácteres' });
         }
 
         req.body.img = '';
