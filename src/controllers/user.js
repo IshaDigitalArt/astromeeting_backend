@@ -3,9 +3,14 @@ const bcrypt = require('bcryptjs');
 const { getFilePath, unlinkFile } = require('../utils/auth');
 const { createAccessToken, createRefreshToken } = require('../utils/jwt');
 
+//Importa el modelo User desde el archivo user.js en la carpeta models. Importa la biblioteca bcryptjs para utilizarla para hashear y comparar contraseñas.
+//Importa las funciones getFilePath y unlinkFile desde el archivo auth.js en la carpeta utils. Importa las funciones createAccessToken y createRefreshToken desde el archivo jwt.js en la carpeta utils.
+
+//Exporta un objeto que contiene los métodos del controlador.
 module.exports = {
 
     //Acceder al sitio
+    //Define el método index que se encarga de obtener la lista de usuarios. Utiliza el método get del modelo User para obtener la lista de usuarios y devuelve una respuesta según el resultado de la operación.
     index: (req, res) => {
         User.get(req.con, (error, rows) => {
             if (error) {
@@ -17,6 +22,7 @@ module.exports = {
     },
 
     //Almacenar los datos del usuario
+    //Define el método store que se encarga de crear un nuevo usuario. Realiza varias validaciones sobre los campos del formulario, como la longitud de la contraseña, la presencia de caracteres especiales, etc. Luego, utiliza el método create del modelo User para crear el usuario y devuelve una respuesta según el resultado de la operación.
     store: (req, res) => {
         const { firstName, lastName, email, password, fecha_nacimiento, descripcion, roleId, img } = req.body;
         const regex = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
@@ -69,6 +75,7 @@ module.exports = {
     },
     
     //Acceder a un usuario existente
+    //Define el método login que se encarga de autenticar a un usuario existente. Utiliza el método getByEmail del modelo User para obtener el usuario por email, y luego compara la contraseña proporcionada con la contraseña hasheada en la base de datos utilizando bcrypt. Si la autenticación es exitosa, devuelve un token de acceso y un token de refresh utilizando las funciones createAccessToken y createRefreshToken.
     login: (req, res) => {
         const { email, password } = req.body;
         //comprueba que el email existe, o que la contraseña es incorrecta
