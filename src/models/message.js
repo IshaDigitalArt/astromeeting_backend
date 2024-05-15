@@ -6,7 +6,7 @@ module.exports = {
         SELECT content, messages.id as id, 
         userId, date, firstName, lastName 
         FROM messages INNER JOIN users 
-        ON messages.userId = users.id ORDER BY date ASC;`, callback);
+        ON messages.userId = users.id ORDER BY date ASC;`, callback); //ordena los mensajes para que el último se vea abajo del todo
     },
 
     //Define el método getById que se encarga de obtener un mensaje por su ID. Utiliza la conexión con para ejecutar una consulta SQL que selecciona todos los campos de la tabla messages donde el ID coincide con el parámetro id. El método devuelve los resultados de la consulta a través del callback.

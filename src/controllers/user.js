@@ -64,7 +64,7 @@ module.exports = {
             if (error) {
                 if (req.body.img) unlinkFile(req.body.img);
                 if (error.code === 'ER_DUP_ENTRY') { // Email ya existe
-                    res.status(409).send({ response: error.sqlMessage }); // Manda un mensaje específico de error
+                    res.status(409).send({ response: "Email ya existente" }); // Manda un mensaje específico de error
                 } else {
                     res.status(500).send({ response: 'Ha ocurrido un error creando el usuario' });
                 }
