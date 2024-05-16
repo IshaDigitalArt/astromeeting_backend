@@ -1,12 +1,12 @@
 //Exporta un objeto que contiene los métodos del modelo Message.
 module.exports = {
     //Define el método get que se encarga de obtener la lista de mensajes. Utiliza la conexión con para ejecutar una consulta SQL que selecciona todos los campos de la tabla messages y los campos firstName y lastName de la tabla users, utilizando una inner join para relacionar las dos tablas. La consulta se ordena por la fecha de creación de los mensajes en orden ascendente. El método devuelve los resultados de la consulta a través del callback.
-    get: (con, callback) => {
+    get: (con, data, callback) => {
         con.query(`
         SELECT content, messages.id as id, 
         userId, date, firstName, lastName 
         FROM messages INNER JOIN users 
-        ON messages.userId = users.id ORDER BY date ASC;`, callback); //ordena los mensajes para que el último se vea abajo del todo
+        ON messages.userId = users.id AND users.id_compatibilidad = ${data.compatibilidad} ORDER BY date ASC;`, callback); //ordena los mensajes para que el último se vea abajo del todo
     },
 
     //Define el método getById que se encarga de obtener un mensaje por su ID. Utiliza la conexión con para ejecutar una consulta SQL que selecciona todos los campos de la tabla messages donde el ID coincide con el parámetro id. El método devuelve los resultados de la consulta a través del callback.

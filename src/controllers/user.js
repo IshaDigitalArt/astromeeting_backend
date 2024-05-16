@@ -62,6 +62,7 @@ module.exports = {
         //Crear el usuario, comprobando email existente, entre otros errores
         User.create(req.con, req.body, (error, row) => {
             if (error) {
+                console.log(error); //MUY UTIL
                 if (req.body.img) unlinkFile(req.body.img);
                 if (error.code === 'ER_DUP_ENTRY') { // Email ya existe
                     res.status(409).send({ response: "Email ya existente" }); // Manda un mensaje específico de error
