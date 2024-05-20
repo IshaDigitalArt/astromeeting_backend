@@ -12,7 +12,7 @@ module.exports = {
     store: (req, res) => {
         Message.create(req.con, req.body, (error) => {
             if (error) {
-                console.log(error)
+                //console.log(error)
                 res.status(500).send({ response: 'Ha ocurrido un error creando el mensaje' });
             } else {
                 req.query = { compatibilidad: req.body.compatibilidad } //solución fea pero válida
@@ -25,6 +25,7 @@ module.exports = {
     destroy: (req, res) => {
         const { id } = req.params;
         Message.destroy(req.con, id, (error) => {
+          //console.log(error);
             if (error) {
                 res.status(500).send({ response: 'Ha ocurrido un error eliminando el mensaje' });
             } else {
@@ -39,7 +40,7 @@ module.exports = {
 function _getMessages(req, res) {
     console.log(req.query);
     Message.get(req.con, req.query, (error, rows) => {
-        console.log(error);
+        //console.log(error);
         if (error) {
             res.status(500).send({ response: 'Ha ocurrido un error listando los mensajes' });
         } else {
