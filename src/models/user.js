@@ -110,7 +110,7 @@ module.exports = {
         if (dia <= 21) {
           horoscopo = 12;
         } else if (dia >= 22) {
-          horoscopo = 12;
+          horoscopo = 1;
         }
         break;
     }

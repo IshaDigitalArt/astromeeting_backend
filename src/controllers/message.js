@@ -15,7 +15,7 @@ module.exports = {
                 console.log(error)
                 res.status(500).send({ response: 'Ha ocurrido un error creando el mensaje' });
             } else {
-                req.query = { compatibilidad: req.body.compatibilidad }
+                req.query = { compatibilidad: req.body.compatibilidad } //solución fea pero válida
                 _getMessages(req, res);
             }
         });
