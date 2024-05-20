@@ -38,7 +38,7 @@ module.exports = {
 
 //Define una función privada _getMessages que se encarga de obtener la lista de mensajes. Utiliza el método get del modelo Message para obtener la lista de mensajes y devuelve una respuesta según el resultado de la operación. También emite un evento messages a través de Socket.IO para notificar a los clientes de la actualización de la lista de mensajes.
 function _getMessages(req, res) {
-    console.log(req.query);
+    //console.log(req.query);
     Message.get(req.con, req.query, (error, rows) => {
         //console.log(error);
         if (error) {
