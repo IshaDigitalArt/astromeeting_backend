@@ -20,6 +20,27 @@ module.exports = {
             }
         })
     },
+    //Para conseguir usuario unico mediante su ID
+    getById: (req, res) => {
+        User.getById(req.con, req.query.id, (error, rows) => {
+            if (error) {
+                res.status(500).send({ response: 'Ha ocurrido un error listando los usuarios' });
+            } else {
+                res.status(200).send({ response: rows });
+            }
+        })
+    },
+    //Para eliminar usuario completo mediante su ID
+    deleteUser: (req, res) => {
+        // console.log("Vamos a borrar el user " + req.query.id)
+        User.deleteUser(req.con, req.query.id, (error, rows) => {
+            if (error) {
+                res.status(500).send({ response: 'Ha ocurrido un error eliminando usuario' });
+            } else {
+                res.status(200).send({ response: rows });
+            }
+        })
+    },
 
     //Almacenar los datos del usuario
     //Define el método store que se encarga de crear un nuevo usuario. Realiza varias validaciones sobre los campos del formulario, como la longitud de la contraseña, la presencia de caracteres especiales, etc. Luego, utiliza el método create del modelo User para crear el usuario y devuelve una respuesta según el resultado de la operación.
@@ -49,8 +70,8 @@ module.exports = {
             return res.status(400).send({ response: 'La contraseña tiene que tener al menos un caracter especial' });
         }
 
-         //Validar tamaño de la descripcion
-         if (descripcion.length>250){
+        //Validar tamaño de la descripcion
+        if (descripcion.length > 250) {
             return res.status(400).send({ response: 'El texto no debe exceder de los 250 carácteres' });
         }
         //Guardar la imagen de perfil del usuario
@@ -62,7 +83,7 @@ module.exports = {
         //Crear el usuario, comprobando email existente, entre otros errores
         User.create(req.con, req.body, (error, row) => {
             if (error) {
-                console.log(error); //MUY UTIL
+                // console.log(error); //MUY UTIL
                 if (req.body.img) unlinkFile(req.body.img);
                 if (error.code === 'ER_DUP_ENTRY') { // Email ya existe
                     res.status(409).send({ response: "Email ya existente" }); // Manda un mensaje específico de error
@@ -74,7 +95,36 @@ module.exports = {
             }
         });
     },
-    
+
+    //Actualizar los datos de usuario
+    update: (req, res) => {
+        const { firstName, lastName, fecha_nacimiento, descripcion, img } = req.body;
+        // Validar campos obligatorios
+        if (!firstName || !lastName || !fecha_nacimiento) {
+            return res.status(400).send({ response: 'Faltan campos obligatorios' });
+        }
+        //Validar tamaño de la descripcion
+        if (descripcion.length > 250) {
+            return res.status(400).send({ response: 'El texto no debe exceder de los 250 carácteres' });
+        }
+        //Guardar la imagen de perfil del usuario
+        console.log(req.files)
+        req.body.img = '';
+        if (req.files.img) {
+            req.body.img = getFilePath(req.files.img);
+        }
+        //Actualiza el usuario
+        User.update(req.con, req.body, (error, row) => {
+            if (error) {
+                if (req.body.img) unlinkFile(req.body.img);
+                console.log(error); //MUY UTIL
+                res.status(500).send({ response: 'Ha ocurrido un error actualizando el usuario' });
+            } else {
+                res.status(200).send({ response: row });
+            }
+        });
+    },
+
     //Acceder a un usuario existente
     //Define el método login que se encarga de autenticar a un usuario existente. Utiliza el método getByEmail del modelo User para obtener el usuario por email, y luego compara la contraseña proporcionada con la contraseña hasheada en la base de datos utilizando bcrypt. Si la autenticación es exitosa, devuelve un token de acceso y un token de refresh utilizando las funciones createAccessToken y createRefreshToken.
     login: (req, res) => {

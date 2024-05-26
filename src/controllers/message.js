@@ -29,7 +29,8 @@ module.exports = {
             if (error) {
                 res.status(500).send({ response: 'Ha ocurrido un error eliminando el mensaje' });
             } else {
-                _getMessages(req, res);
+                res.status(200).send({ response: 'Ok' });
+                // _getMessages(req, res);
             }
         });
     },
@@ -40,8 +41,8 @@ module.exports = {
 function _getMessages(req, res) {
     //console.log(req.query);
     Message.get(req.con, req.query, (error, rows) => {
-        //console.log(error);
         if (error) {
+            console.log(error);
             res.status(500).send({ response: 'Ha ocurrido un error listando los mensajes' });
         } else {
             const { io } = req;

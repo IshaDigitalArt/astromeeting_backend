@@ -10,11 +10,18 @@ const app = express.Router();
 
 
 app.get('/users', userController.index);
+app.get('/users/getById', userController.getById);
 app.post('/users/create', mdUserImg, userController.store);
 app.post('/users/login', mdUserImg, userController.login);
-//Define una ruta GET para obtener la lista de usuarios. La ruta llama al método index del controlador de usuarios.
-//Define una ruta POST para crear un nuevo usuario. La ruta utiliza el middleware mdUserImg para manejar archivos multipart/form-data y llama al método store del controlador de usuarios.
-//Define una ruta POST para autenticar a un usuario. La ruta utiliza el middleware mdUserImg para manejar archivos multipart/form-data y llama al método login del controlador de usuarios.
+app.patch('/users/update', mdUserImg, userController.update);
+app.delete('/users/delete', userController.deleteUser);
+//Cuando se realiza una solicitud GET a /users, se ejecuta el método index del userController. Este método generalmente se utiliza para obtener una lista de todos los usuarios.
+//Cuando se realiza una solicitud GET a /users/getById, se ejecuta el método getById del userController. Este método generalmente se utiliza para obtener un usuario específico por su ID.
+//Cuando se realiza una solicitud POST a /users/create, primero se ejecuta el middleware mdUserImg (maneja la carga de imágenes de usuario), y luego se ejecuta el método store del userController. Este método generalmente se utiliza para crear un nuevo usuario.
+//Cuando se realiza una solicitud POST a /users/login, primero se ejecuta el middleware mdUserImg, y luego se ejecuta el método login del userController. Este método generalmente se utiliza para autenticar a un usuario y iniciar su sesión.
+//Cuando se realiza una solicitud PATCH a /users/update, primero se ejecuta el middleware mdUserImg, y luego se ejecuta el método update del userController. Este método generalmente se utiliza para actualizar la información de un usuario existente.
+//Cuando se realiza una solicitud DELETE a /users/delete, se ejecuta el método deleteUser del userController. Este método generalmente se utiliza para eliminar un usuario.
+
 
 //Exporta el objeto app que contiene las rutas definidas.
 module.exports = app;

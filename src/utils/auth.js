@@ -9,12 +9,17 @@ function hashPassword(password) {
     //Genera un salt aleatorio con una longitud de 10 caracteres utilizando bcrypt.
     //Hashea la contraseña utilizando el salt generado y devuelve el resultado.
 }
+//Define una funcion que compara la contraseña anterior con ingresada en pagina de perfil
+function checkPassword(enteredPassword, storedPasswordHash) {
+    return bcrypt.compareSync(enteredPassword, storedPasswordHash);
+  }
 
 //Define una función getFilePath que toma un objeto file como parámetro y devuelve la ruta del archivo
 function getFilePath(file) {
     const path = file.path.split('\\');
     const fileName = path.pop();
     const folder = path.pop();
+    console.log(`${folder}/${fileName}`)
     return `${folder}/${fileName}`;
     //Divide la ruta del archivo en un array de directorios utilizando el carácter \ como separador.
     //Extrae el nombre del archivo del array de directorios.
@@ -35,6 +40,7 @@ function unlinkFile(path) {
 //Exporta las tres funciones definidas en el archivo como un objeto que contiene las funciones.
 module.exports = {
     hashPassword,
+    checkPassword,
     getFilePath,
     unlinkFile
 }
