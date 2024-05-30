@@ -9,6 +9,10 @@ module.exports = {
   getById: (con, id, callback) => {
     con.query(`SELECT * FROM users WHERE id= ${id}`, callback);
   },
+
+  getByHoroscope: (con, id_horoscopo, callback) => {
+    con.query(`SELECT * FROM horoscopos WHERE id_horoscopo = ${id_horoscopo}`, callback)
+  },
   //Conseguir mail del usuario para comparar/usar mas adelante
   getByEmail: (con, email, callback) => {
     con.query(`SELECT * FROM users WHERE email= '${email}'`, callback);
@@ -274,23 +278,23 @@ module.exports = {
         firstName = '${firstName}',
         lastName = '${lastName}',
         fecha_nacimiento ='${fecha_nacimiento}',`
-        if(img) {
-          query = query + `img = '${img}',
+    if (img) {
+      query = query + `img = '${img}',
           descripcion='${descripcion}',
           id_horoscopo=${horoscopo},
           id_compatibilidad=${compatibilidad}
           WHERE id = '${id}';`
-        }
-        else {
-          query = query + `
+    }
+    else {
+      query = query + `
           descripcion='${descripcion}',
           id_horoscopo=${horoscopo},
           id_compatibilidad=${compatibilidad}
           WHERE id = '${id}';`
-        }
+    }
 
     ;
     con.query(query, callback);
   }
-   // Este paréntesis cierra el método update
+  // Este paréntesis cierra el método update
 }

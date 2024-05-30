@@ -11,6 +11,7 @@ const app = express.Router();
 
 app.get('/users', userController.index);
 app.get('/users/getById', userController.getById);
+app.get('/users/getByHoroscope', userController.getByHoroscope);
 app.post('/users/create', mdUserImg, userController.store);
 app.post('/users/login', mdUserImg, userController.login);
 app.patch('/users/update', mdUserImg, userController.update);
