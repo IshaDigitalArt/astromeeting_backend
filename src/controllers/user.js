@@ -40,6 +40,16 @@ module.exports = {
             }
         })
     },
+    //Para conseguir usuario unico mediante su compatibilidad
+    getByCompatibilidad: (req, res) => {
+        User.getByCompatibilidad(req.con, req.query.id, (error, rows) => {
+            if (error) {
+                res.status(500).send({ response: 'Ha ocurrido un error listando las compatibilidades' });
+            } else {
+                res.status(200).send({ response: rows });
+            }
+        })
+    },
     //Para eliminar usuario completo mediante su ID
     deleteUser: (req, res) => {
         // console.log("Vamos a borrar el user " + req.query.id)

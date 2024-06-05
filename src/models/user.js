@@ -9,9 +9,13 @@ module.exports = {
   getById: (con, id, callback) => {
     con.query(`SELECT * FROM users WHERE id= ${id}`, callback);
   },
-
+  //Conseguir horoscopo del usuario
   getByHoroscope: (con, id_horoscopo, callback) => {
     con.query(`SELECT * FROM horoscopos WHERE id_horoscopo = ${id_horoscopo}`, callback)
+  },
+  //Conseguir compatibilidad del usuario
+  getByCompatibilidad: (con, id_compatibilidad, callback)=>{
+    con.query(`SELECT * FROM compatibilidad WHERE id_compatibilidad=${id_compatibilidad}`, callback)
   },
   //Conseguir mail del usuario para comparar/usar mas adelante
   getByEmail: (con, email, callback) => {
