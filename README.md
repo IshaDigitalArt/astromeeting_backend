@@ -1,4 +1,4 @@
-# AstromeetingFrontend
+# AstromeetingBackend
 
 This project was generated with [NODE JS](https://github.com/nodejs) version v20.12.2
 
